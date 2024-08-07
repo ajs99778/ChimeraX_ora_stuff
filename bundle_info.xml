@@ -1,0 +1,120 @@
+<BundleInfo name="ChimeraX-ORA_stuff" 
+            customInit="false"
+            minSessionVersion="3"
+            maxSessionVersion="3"
+            package="ora_stuff"
+            purePython="true"
+            version="0.1">
+            
+            <Author>Tony Schaefer</Author>
+            <Email>tony.schaefer.chem@gmail.com</Email>
+			<URL>https://github.com/ajs99778/ChimeraX_OpenCommands</URL>
+            <License>license.txt</License>
+            <Synopsis>Some ORA related stuff for ChimeraX</Synopsis>
+            <Description>
+				Features:
+				 * preset that looks a lot like the ORA style
+                 * command for saving structures to FBX files for aORA
+				 * mouse modes for denoting bond orders when saving SDF files
+				 * can save SDF files 
+            </Description>
+            
+            <Dependencies>
+                <Dependency name="ChimeraX-Core" version="&gt;=1.4"/>
+                <!--
+				need just a few things from SEQCROW and AaronTools
+				- widget to select models from SEQCROW
+				- average bond lengths for different bond orders from AaronTools
+				-->
+				<Dependency name="SEQCROW"/>
+            </Dependencies>
+
+            <Categories>
+                <Category name="General"/>
+            </Categories>
+
+            <Providers manager="presets">
+                <Provider category="small molecule" name="ORA style"/>
+            </Providers>
+
+			<Providers manager="data formats">
+                <Provider name="FBX file" 
+                          category="3D scene" 
+                          suffixes=".fbx" 
+                          encoding="utf-8" 
+                          reference_url="https://docs.blender.org/manual/en/2.80/addons/io_scene_fbx.html" 
+                          synopsis="FBX file"
+                /> 
+                <Provider name="SDF file" 
+                          category="Molecular structure" 
+                          suffixes=".sdf,.sd" 
+                          encoding="utf-8" 
+                          nicknames="ctab" 
+                          reference_url="https://en.wikipedia.org/wiki/Chemical_table_file" 
+                          synopsis="SDF coordinate file"
+                />                				
+			</Providers>
+            
+            <Providers manager="save command">
+                <Provider name="SDF file"/>
+                <Provider name="FBX file"/>
+            </Providers>
+
+			<!--
+			<Providers manager="toolbar">
+                <Provider tab="More Right Mouse"
+                          section="Bond Orders"
+                          name="single"
+                          mouse_mode="single bond"
+                          display_name="Single" 
+                          description="Denote a single bond"
+                          icon="single.png"
+                />
+				<Provider tab="More Right Mouse"
+                          section="Bond Orders"
+                          name="double"
+                          mouse_mode="double bond"
+                          display_name="Double" 
+                          description="Denote a double bond"
+                          icon="double.png"
+                />
+				<Provider tab="More Right Mouse"
+                          section="Bond Orders"
+                          name="triple"
+                          mouse_mode="triple bond"
+                          display_name="Triple" 
+                          description="Denote a triple bond"
+                          icon="triple.png"
+                />
+				<Provider tab="More Right Mouse"
+                          section="Bond Orders"
+                          name="breaking_single"
+                          mouse_mode="breaking single bond"
+                          display_name="Breaking" 
+                          description="Denote a single bond that breaks/forms"
+                          icon="breaking.png"
+                />
+				<Provider tab="More Right Mouse"
+                          section="Bond Orders"
+                          name="changing_double_to_single"
+                          mouse_mode="changing double to single"
+                          display_name="Double or Single" 
+                          description="Denote a single bond that changes to double"
+                          icon="changing.png"
+                />
+			</Providers>
+			-->
+				
+            <Classifiers>
+                <PythonClassifier>Development Status :: 3 - Alpha</PythonClassifier>
+                <PythonClassifier>Framework :: ChimeraX</PythonClassifier>
+                <PythonClassifier>Intended Audience :: Science/Research</PythonClassifier>
+                <PythonClassifier>Natural Language :: English</PythonClassifier>
+                <PythonClassifier>Programming Language :: Python :: 3</PythonClassifier>
+                <PythonClassifier>Topic :: Scientific/Engineering :: Chemistry</PythonClassifier>
+                <PythonClassifier>Topic :: Scientific/Engineering :: Visualization</PythonClassifier>
+
+                <ChimeraXClassifier>ChimeraX :: Tool :: My Notes :: General :: Save notes on stuff</ChimeraXClassifier>
+			</Classifiers>
+
+</BundleInfo>
