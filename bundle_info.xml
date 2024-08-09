@@ -125,7 +125,7 @@
                 <PythonClassifier>Topic :: Scientific/Engineering :: Chemistry</PythonClassifier>
                 <PythonClassifier>Topic :: Scientific/Engineering :: Visualization</PythonClassifier>
 
-                <ChimeraXClassifier>ChimeraX :: Tool :: My Notes :: General :: Save notes on stuff</ChimeraXClassifier>
+                <ChimeraXClassifier>ChimeraX :: Command :: guessBondOrders :: Structure Analysis :: guess bond orders and add appropriate pseudobond groups</ChimeraXClassifier>
 			</Classifiers>
 
     <DataFiles>

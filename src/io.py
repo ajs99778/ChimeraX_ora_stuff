@@ -68,7 +68,7 @@ def save_sdf(
                     ndx = model.num_atoms * j + i - ((j + 2) * (j + 1)) // 2
                     if distances[ndx] > ts_distance[key]:
                         continue
-                    if distances[ndx] > ts_distance[key]:
+                    if distances[ndx] < ts_distance[key] and distances[ndx] > distances[key]:
                         this_bonds.append((i, j, 0.5))
                     if a1.element.name == "H" or a2.element.name == "H":
                         this_bonds.append((i, j, 1))

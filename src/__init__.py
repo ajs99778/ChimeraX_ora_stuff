@@ -2,7 +2,7 @@ import os
 
 from chimerax.atomic import AtomicStructureArg
 from chimerax.core.toolshed import BundleAPI
-from chimerax.core.commands import BoolArg, FileNameArg, FloatArg, StringArg
+from chimerax.core.commands import BoolArg, FileNameArg, FloatArg, StringArg, register
 
 class _ora_stuff_API(BundleAPI):
 
@@ -30,6 +30,15 @@ class _ora_stuff_API(BundleAPI):
             session.ui.mouse_modes.add_mode(SetAromaticBond(session))
             session.ui.mouse_modes.add_mode(SetDoubleBond(session))
             session.ui.mouse_modes.add_mode(SetTripleBond(session))
+    
+    @staticmethod
+    def register_command(bundle_info, command_info, logger):
+        """
+        register commands
+        """
+        if command_info.name == "guessBondOrders":
+            from .commands.guess_bond_orders import guessBondOrders_description, guessBondOrders
+            register("guessBondOrders", guessBondOrders_description, guessBondOrders)
 
     @staticmethod
     def run_provider(session, name, mgr, **kw):
