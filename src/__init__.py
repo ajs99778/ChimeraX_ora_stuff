@@ -14,10 +14,22 @@ class _ora_stuff_API(BundleAPI):
         custom initialization adds mouse modes to the menu
         """
 
-        # if session.ui.is_gui:
-        #     from .mouse_modes import 
-        #     
-        #     session.ui.mouse_modes.add_mode(SelectConnectedMouseMode(session))
+        if session.ui.is_gui:
+            from .mouse_modes import (
+                SetBrokenBond,
+                SetHalfBond,
+                SetSingleBond,
+                SetAromaticBond,
+                SetDoubleBond,
+                SetTripleBond,
+            )
+            
+            session.ui.mouse_modes.add_mode(SetBrokenBond(session))
+            session.ui.mouse_modes.add_mode(SetHalfBond(session))
+            session.ui.mouse_modes.add_mode(SetSingleBond(session))
+            session.ui.mouse_modes.add_mode(SetAromaticBond(session))
+            session.ui.mouse_modes.add_mode(SetDoubleBond(session))
+            session.ui.mouse_modes.add_mode(SetTripleBond(session))
 
     @staticmethod
     def run_provider(session, name, mgr, **kw):

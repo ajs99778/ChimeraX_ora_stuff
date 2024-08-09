@@ -1,5 +1,5 @@
 <BundleInfo name="ChimeraX-ORA_stuff" 
-            customInit="false"
+            customInit="true"
             minSessionVersion="3"
             maxSessionVersion="3"
             package="ora_stuff"
@@ -28,6 +28,11 @@
 				-->
 				<Dependency name="SEQCROW"/>
             </Dependencies>
+
+            <Initializations>
+                <InitAfter type="custom" bundle="ChimeraX-MouseModes"/>
+                <InitAfter type="custom" bundle="SEQCROW"/>
+            </Initializations>
 
             <Categories>
                 <Category name="General"/>
@@ -60,20 +65,27 @@
                 <Provider name="FBX file"/>
             </Providers>
 
-			<!--
 			<Providers manager="toolbar">
                 <Provider tab="More Right Mouse"
                           section="Bond Orders"
                           name="single"
-                          mouse_mode="single bond"
+                          mouse_mode="single"
                           display_name="Single" 
                           description="Denote a single bond"
                           icon="single.png"
                 />
 				<Provider tab="More Right Mouse"
                           section="Bond Orders"
+                          name="aromatic"
+                          mouse_mode="aromatic"
+                          display_name="Aromatic" 
+                          description="Denote an aromatic bond"
+                          icon="aromatic.png"
+                />
+                <Provider tab="More Right Mouse"
+                          section="Bond Orders"
                           name="double"
-                          mouse_mode="double bond"
+                          mouse_mode="double"
                           display_name="Double" 
                           description="Denote a double bond"
                           icon="double.png"
@@ -81,30 +93,29 @@
 				<Provider tab="More Right Mouse"
                           section="Bond Orders"
                           name="triple"
-                          mouse_mode="triple bond"
+                          mouse_mode="triple"
                           display_name="Triple" 
                           description="Denote a triple bond"
                           icon="triple.png"
                 />
 				<Provider tab="More Right Mouse"
                           section="Bond Orders"
-                          name="breaking_single"
-                          mouse_mode="breaking single bond"
-                          display_name="Breaking" 
-                          description="Denote a single bond that breaks/forms"
-                          icon="breaking.png"
+                          name="half"
+                          mouse_mode="half"
+                          display_name="Half" 
+                          description="Denote a half bond (TS bond)"
+                          icon="half.png"
                 />
 				<Provider tab="More Right Mouse"
                           section="Bond Orders"
-                          name="changing_double_to_single"
-                          mouse_mode="changing double to single"
-                          display_name="Double or Single" 
-                          description="Denote a single bond that changes to double"
-                          icon="changing.png"
+                          name="broken"
+                          mouse_mode="broken"
+                          display_name="No Bond" 
+                          description="Denote no bond"
+                          icon="broken.png"
                 />
 			</Providers>
-			-->
-				
+
             <Classifiers>
                 <PythonClassifier>Development Status :: 3 - Alpha</PythonClassifier>
                 <PythonClassifier>Framework :: ChimeraX</PythonClassifier>
@@ -116,5 +127,9 @@
 
                 <ChimeraXClassifier>ChimeraX :: Tool :: My Notes :: General :: Save notes on stuff</ChimeraXClassifier>
 			</Classifiers>
+
+    <DataFiles>
+        <DataDir>icons</DataDir>
+    </DataFiles>
 
 </BundleInfo>
