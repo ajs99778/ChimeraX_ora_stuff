@@ -22,6 +22,7 @@ class SetBondOrder(DrawBondMouseMode):
     name = None
     color = None
     dashes = 0
+    draw_new = True
 
     def vr_press(self, event):
         self.mouse_up(event)
@@ -41,6 +42,8 @@ class SetBondOrder(DrawBondMouseMode):
                 # run(self.session, "bond %s %s" % (bond.atoms[0].atomspec, bond.atoms[1].atomspec))
                 bond.delete()
                 self.reset()
+            else:
+                self.draw_new_pbond(*bond.atoms)
             return
 
         if isinstance(pick, PickedBond):
@@ -78,20 +81,21 @@ class SetBondOrder(DrawBondMouseMode):
             self.reset()
 
     def draw_new_pbond(self, atom1, atom2):
-        pbg = atom1.structure.pseudobond_group(
-            self.name,
-            create_type=2
-        )
-        
-        for cs_id in range(atom1.structure.active_coordset_id, atom1.structure.coordset_ids[-1] + 1):
-            pbg.new_pseudobond(atom1, atom2, cs_id=cs_id)
-        # bug in older versions of ChimeraX where new pseudobonds aren't 
-        # displayed until something else changes
-        # change the number of dashes
-        pbg.dashes = self.dashes
-        pbg.dashes += 2
-        pbg.dashes -= 2
-        pbg.color = self.color
+        if self.draw_new:
+            pbg = atom1.structure.pseudobond_group(
+                self.name,
+                create_type=2
+            )
+            
+            for cs_id in range(atom1.structure.active_coordset_id, atom1.structure.coordset_ids[-1] + 1):
+                pbg.new_pseudobond(atom1, atom2, cs_id=cs_id)
+            # bug in older versions of ChimeraX where new pseudobonds aren't 
+            # displayed until something else changes
+            # change the number of dashes
+            pbg.dashes = self.dashes
+            pbg.dashes += 2
+            pbg.dashes -= 2
+            pbg.color = self.color
         
         for kind in bo_names:
             if kind == self.name:
@@ -110,12 +114,13 @@ class SetBrokenBond(SetBondOrder):
     name = "broken"
     color = [0, 0, 0, 1]
     dashes = 0
+    draw_new = False
 
 
 class SetHalfBond(SetBondOrder):
     name = "half"
-    color = [50, 190, 50, 255]
-    dashes = 6
+    color = [50, 190, 50, 100]
+    dashes = 0
 
 
 class SetSingleBond(SetBondOrder):
@@ -127,7 +132,7 @@ class SetSingleBond(SetBondOrder):
 class SetAromaticBond(SetBondOrder):
     name = "aromatic"
     color = [255, 0, 255, 255]
-    dashes = 0
+    dashes = 4
 
 
 class SetDoubleBond(SetBondOrder):
@@ -138,6 +143,6 @@ class SetDoubleBond(SetBondOrder):
 
 class SetTripleBond(SetBondOrder):
     name = "triple"
-    dashes = 4
+    dashes = 6
     color = [255, 255, 0, 255]
 

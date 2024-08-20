@@ -59,15 +59,13 @@ class _ora_stuff_API(BundleAPI):
                     def save_args(self):
                         return {
                             'model': AtomicStructureArg,
-                            'tolerance': FloatArg,
-                            'TStolerance': FloatArg,
                             'style': StringArg,
                             'coordsets': BoolArg,
                         }
                     
                     def save_args_widget(self, session):
                         from Qt.QtWidgets import (
-                            QWidget, QFormLayout, QDoubleSpinBox, QCheckBox, QComboBox
+                            QWidget, QFormLayout, QComboBox, QCheckBox
                         )
                         from SEQCROW.widgets import ModelComboBox
 
@@ -78,21 +76,7 @@ class _ora_stuff_API(BundleAPI):
                             autoUpdate=False,
                         )
                         layout.addRow(models)
-                        
-                        tolerance = QDoubleSpinBox()
-                        tolerance.setDecimals(2)
-                        tolerance.setRange(0.0, 1.0)
-                        tolerance.setSingleStep(0.05)
-                        tolerance.setValue(0.35)
-                        layout.addRow("bonded tolerance", tolerance)
-                        
-                        ts_tolerance = QDoubleSpinBox()
-                        ts_tolerance.setDecimals(2)
-                        ts_tolerance.setRange(0.0, 1.5)
-                        ts_tolerance.setSingleStep(0.05)
-                        ts_tolerance.setValue(0.6)
-                        layout.addRow("half bond tolerance", ts_tolerance)
-                        
+
                         style = QComboBox()
                         style.addItems([
                             "V2000",
@@ -102,6 +86,7 @@ class _ora_stuff_API(BundleAPI):
                         layout.addRow("style", style)
                         
                         coordsets = QCheckBox()
+                        coordsets.setChecked(True)
                         layout.addRow("all coordinate sets", coordsets)
 
                         return widget
@@ -109,10 +94,8 @@ class _ora_stuff_API(BundleAPI):
                     def save_args_string_from_widget(self, widget):
                         from Qt.QtWidgets import QFormLayout
                         models = widget.layout().itemAt(0).widget().options_string()
-                        tolerance = widget.layout().itemAt(1, QFormLayout.FieldRole).widget().value()
-                        ts_tolerance = widget.layout().itemAt(2, QFormLayout.FieldRole).widget().value()
-                        style = widget.layout().itemAt(3, QFormLayout.FieldRole).widget().currentText()
-                        coordsets = widget.layout().itemAt(4, QFormLayout.FieldRole).widget().isChecked()
+                        style = widget.layout().itemAt(1, QFormLayout.FieldRole).widget().currentText()
+                        coordsets = widget.layout().itemAt(2, QFormLayout.FieldRole).widget().isChecked()
                         args = [
                             models.replace("models", "model", 1),
                             "tolerance", "%.2f" % tolerance,

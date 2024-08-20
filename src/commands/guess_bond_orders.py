@@ -8,6 +8,14 @@ from scipy.spatial.distance import pdist
 
 import numpy as np
 
+from ora_stuff.mouse_modes import (
+    SetHalfBond,
+    SetSingleBond,
+    SetAromaticBond,
+    SetDoubleBond,
+    SetTripleBond,
+)
+
 guessBondOrders_description = CmdDesc(
     required=[("selection", AtomsArg)],
     keyword=[
@@ -170,17 +178,17 @@ def guessBondOrders(
                                         pb.delete()
                 
                 if bo == "half":
-                    pbg.color = [50, 190, 50, 255]
-                    pbg.dashes = 6
+                    pbg.color = SetHalfBond.color
+                    pbg.dashes = SetHalfBond.dashes
                 elif bo == "single":
-                    pbg.color = [255, 255, 255, 255]
-                    pbg.dashes = 0
+                    pbg.color = SetSingleBond.color
+                    pbg.dashes = SetSingleBond.dashes
                 elif bo == "aromatic":
-                    pbg.color = [255, 0, 255, 255]
-                    pbg.dashes = 0
+                    pbg.color = SetAromaticBond.color
+                    pbg.dashes = SetAromaticBond.dashes
                 elif bo == "double":
-                    pbg.color = [0, 0, 0, 255]
-                    pbg.dashes = 4
+                    pbg.color = SetDoubleBond.color
+                    pbg.dashes = SetDoubleBond.dashes
                 elif bo == "triple":
-                    pbg.color = [255, 255, 0, 255]
-                    pbg.dashes = 4
+                    pbg.color = SetTripleBond.color
+                    pbg.dashes = SetTripleBond.dashes

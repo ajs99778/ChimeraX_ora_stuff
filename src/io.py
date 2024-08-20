@@ -3,14 +3,8 @@ import subprocess
 
 from chimerax.atomic import AtomicStructure
 
-from AaronTools.atoms import BondOrder
-from AaronTools.const import RADII
-
-from scipy.spatial.distance import pdist
-
 import numpy as np
 
-bo = BondOrder()
 bo_to_mol_map = {
     0.5: 8,
     1.0: 1,
@@ -23,28 +17,10 @@ def save_sdf(
     session,
     path,
     model=None,
-    tolerance=0.35,
-    TStolerance=0.6,
     style="V3000",
     coordsets=True,
 ):
-    # create a dict for how far each pair of elements
-    # can be and still be bonded
-    max_connected = dict()
-    ts_distance = dict()
-    for i, a1 in enumerate(model.atoms):
-        for a2 in model.atoms[:i + 1]:
-            key = bo.key(a1.element.name, a2.element.name)
-            try:
-                max_connected[key]
-            except KeyError:
-                max_connected[key] = (
-                    RADII[a1.element.name] + RADII[a2.element.name] + tolerance
-                ) ** 2
-                ts_distance[key] = (
-                    RADII[a1.element.name] + RADII[a2.element.name] + TStolerance
-                ) ** 2
-    
+
     if coordsets:
         write_coordsets = model.coordset_ids
     else:
@@ -59,35 +35,23 @@ def save_sdf(
 
             coords = model.coordset(cs_id).xyzs
             # squared distance for each pair of atoms
-            distances = pdist(coords, "sqeuclidean")
-            this_bonds = []
-
-            for i, a1 in enumerate(model.atoms):
-                for j, a2 in enumerate(model.atoms[:i + 1]):
-                    key = bo.key(a1.element.name, a2.element.name)
-                    ndx = model.num_atoms * j + i - ((j + 2) * (j + 1)) // 2
-                    if distances[ndx] > ts_distance[key]:
-                        continue
-                    if distances[ndx] < ts_distance[key] and distances[ndx] > distances[key]:
-                        this_bonds.append((i, j, 0.5))
-                    if a1.element.name == "H" or a2.element.name == "H":
-                        this_bonds.append((i, j, 1))
-                        continue
-                    try:
-                        possible_bond_orders = bo.bonds[key]
-                    except KeyError:
-                        this_bonds.append((i, j, 1))
-                        continue
-
-                    d = np.sqrt(distances[ndx])
-                    closest = (0, None)
-                    for order, length in possible_bond_orders.items():
-                        diff = abs(length - d)
-                        if closest[1] is None or diff < closest[1]:
-                            closest = (order, diff)
-                    
-                    this_bonds.append((i, j, float(closest[0])))
             
+            this_bonds = []
+            ndx = {a: i for i, a in enumerate(model.atoms)}
+            for pbg_name, order in zip(
+                ["half", "single", "aromatic", "double", "triple"],
+                [0.5, 1.0, 1.5, 2.0, 3.0]
+            ):
+                pbg = model.pseudobond_group(
+                    pbg_name,
+                    create_type=None
+                )
+                if not pbg:
+                    continue
+                
+                for bond in pbg.get_pseudobonds(cs_id):
+                    this_bonds.append([ndx[bond.atoms[0]], ndx[bond.atoms[1]], order])
+
             if style == "V3000":
                 f.write("  0  0  0  0  0  0  0  0  0  0  0 V3000\n")
                 f.write("M  V30 BEGIN CTAB\n")
