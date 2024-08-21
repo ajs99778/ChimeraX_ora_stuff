@@ -39,6 +39,13 @@ class _ora_stuff_API(BundleAPI):
         if command_info.name == "guessBondOrders":
             from .commands.guess_bond_orders import guessBondOrders_description, guessBondOrders
             register("guessBondOrders", guessBondOrders_description, guessBondOrders)
+        if command_info.name == "editCoordinateSets":
+            from .commands.edit_coordinate_sets import trim_cs_description, trim_cs
+            register("editCoordinateSets trim", trim_cs_description, trim_cs)
+            from .commands.edit_coordinate_sets import flip_cs_description, flip_cs
+            register("editCoordinateSets reverse", flip_cs_description, flip_cs)
+            from .commands.edit_coordinate_sets import combine_cs_description, combine_cs
+            register("editCoordinateSets combine", combine_cs_description, combine_cs)
 
     @staticmethod
     def run_provider(session, name, mgr, **kw):
@@ -98,8 +105,6 @@ class _ora_stuff_API(BundleAPI):
                         coordsets = widget.layout().itemAt(2, QFormLayout.FieldRole).widget().isChecked()
                         args = [
                             models.replace("models", "model", 1),
-                            "tolerance", "%.2f" % tolerance,
-                            "TStolerance", "%.2f" % ts_tolerance,
                             "style", style,
                             "coordsets", str(coordsets)
                         ]

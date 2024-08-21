@@ -50,7 +50,11 @@ def guessBondOrders(
             try:
                 coordset_ids = [coordinateSet]
                 if int(coordinateSet) not in structure.coordset_ids:
-                    session.logger.error("coordinateSet %s is not a valid coordinate set for %s" % structure.atomspec)
+                    session.logger.error("coordinateSet %s is not a valid coordinate set for %s" % (
+                        coordinateSet,
+                        structure.atomspec,
+                    ))
+                    return
             except ValueError:
                 session.logger.error("expected 'all' or an integer for coordinateSet, got %s" % coordinateSet)
                 return

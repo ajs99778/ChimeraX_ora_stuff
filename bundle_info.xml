@@ -126,6 +126,7 @@
                 <PythonClassifier>Topic :: Scientific/Engineering :: Visualization</PythonClassifier>
 
                 <ChimeraXClassifier>ChimeraX :: Command :: guessBondOrders :: Structure Analysis :: guess bond orders and add appropriate pseudobond groups</ChimeraXClassifier>
+                <ChimeraXClassifier>ChimeraX :: Command :: editCoordinateSets :: Structure Editing :: trim or reverse coordinate sets</ChimeraXClassifier>
 			</Classifiers>
 
     <DataFiles>
