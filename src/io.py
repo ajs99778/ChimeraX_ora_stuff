@@ -19,6 +19,7 @@ from ora_stuff.mouse_modes import (
 bo_to_mol_map = {
     0.5: 8,
     1.0: 1,
+    "ar": 4,
     1.5: 5,
     2.0: 2,
     3.0: 3,
@@ -195,7 +196,7 @@ def save_sdf(
             ndx = {a: i for i, a in enumerate(model.atoms)}
             for pbg_name, order in zip(
                 ["half", "single", "aromatic", "partial double", "double", "triple"],
-                [0.5, 1.0, 1.5, 1.5, 2.0, 3.0]
+                [0.5, 1.0, "ar", 1.5, 2.0, 3.0]
             ):
                 pbg = model.pseudobond_group(
                     pbg_name,
