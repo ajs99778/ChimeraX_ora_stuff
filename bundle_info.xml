@@ -4,7 +4,7 @@
             maxSessionVersion="3"
             package="ora_stuff"
             purePython="true"
-            version="0.1">
+            version="0.2">
             
             <Author>Tony Schaefer</Author>
             <Email>tony.schaefer.chem@gmail.com</Email>
@@ -64,6 +64,10 @@
                 <Provider name="SDF file"/>
                 <Provider name="FBX file"/>
             </Providers>
+           
+            <Providers manager="open command">
+                <Provider name="SDF file" want_path="false"/>
+            </Providers>
 
 			<Providers manager="toolbar">
                 <Provider tab="More Right Mouse"
@@ -81,6 +85,14 @@
                           display_name="Aromatic" 
                           description="Denote an aromatic bond"
                           icon="aromatic.png"
+                />
+				<Provider tab="More Right Mouse"
+                          section="Bond Orders"
+                          name="partial double"
+                          mouse_mode="partial double"
+                          display_name="Partial Double" 
+                          description="Denote a partial double bond"
+                          icon="partial double.png"
                 />
                 <Provider tab="More Right Mouse"
                           section="Bond Orders"

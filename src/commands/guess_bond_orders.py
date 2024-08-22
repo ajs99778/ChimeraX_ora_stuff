@@ -12,6 +12,7 @@ from ora_stuff.mouse_modes import (
     SetHalfBond,
     SetSingleBond,
     SetAromaticBond,
+    SetPartialDoubleBond,
     SetDoubleBond,
     SetTripleBond,
 )
@@ -91,7 +92,7 @@ def guessBondOrders(
                 "broken": [],
                 "half": [],
                 "single": [],
-                "aromatic": [],
+                "partial double": [],
                 "double": [],
                 "triple": [],
             }
@@ -134,7 +135,7 @@ def guessBondOrders(
                     if closest[0] == "1.0":
                         bonds["single"].append((a1, a2))
                     elif closest[0] == "1.5":
-                        bonds["aromatic"].append((a1, a2))
+                        bonds["partial double"].append((a1, a2))
                     elif closest[0] == "2.0":
                         bonds["double"].append((a1, a2))
                     elif closest[0] == "3.0":
@@ -190,6 +191,9 @@ def guessBondOrders(
                 elif bo == "aromatic":
                     pbg.color = SetAromaticBond.color
                     pbg.dashes = SetAromaticBond.dashes
+                elif bo == "partial double":
+                    pbg.color = SetPartialDoubleBond.color
+                    pbg.dashes = SetPartialDoubleBond.dashes
                 elif bo == "double":
                     pbg.color = SetDoubleBond.color
                     pbg.dashes = SetDoubleBond.dashes

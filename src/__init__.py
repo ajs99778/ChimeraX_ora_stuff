@@ -19,6 +19,7 @@ class _ora_stuff_API(BundleAPI):
                 SetBrokenBond,
                 SetHalfBond,
                 SetSingleBond,
+                SetPartialDoubleBond,
                 SetAromaticBond,
                 SetDoubleBond,
                 SetTripleBond,
@@ -28,6 +29,7 @@ class _ora_stuff_API(BundleAPI):
             session.ui.mouse_modes.add_mode(SetHalfBond(session))
             session.ui.mouse_modes.add_mode(SetSingleBond(session))
             session.ui.mouse_modes.add_mode(SetAromaticBond(session))
+            session.ui.mouse_modes.add_mode(SetPartialDoubleBond(session))
             session.ui.mouse_modes.add_mode(SetDoubleBond(session))
             session.ui.mouse_modes.add_mode(SetTripleBond(session))
     
@@ -52,6 +54,26 @@ class _ora_stuff_API(BundleAPI):
         if mgr is session.presets:
             from .presets import run_preset
             run_preset(session, name, mgr)
+        
+        elif mgr is session.open_command:
+            from chimerax.open_command import OpenerInfo
+
+            if name == "SDF file":
+                class Info(OpenerInfo):
+                    def open(self, session, data, filename, **kw):
+                        from ora_stuff.io import open_sdf
+                        return open_sdf(
+                            session,
+                            data,
+                            filename,
+                            **kw
+                        )
+                    
+                    @property
+                    def open_args(self):
+                        return {}
+                
+                return Info()
         
         elif mgr is session.save_command:
             from chimerax.save_command import SaverInfo

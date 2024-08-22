@@ -1,3 +1,4 @@
+from chimerax.atomic import AtomicStructure
 from chimerax.core.commands import run
 import numpy as np
 
@@ -91,7 +92,7 @@ def ora_style(session):
     }
     
     
-    for m in session.models.list():
+    for m in session.models.list(type=AtomicStructure):
         try:
             m.ball_scale = 1
             for bond in m.bonds:
@@ -101,8 +102,12 @@ def ora_style(session):
             
             for atom in m.atoms:
                 atom.draw_mode = atom.BALL_STYLE
-                atom.radius = radii[atom.element.name]
-            
+                try:
+                    atom.radius = radii[atom.element.name]
+                except KeyError:
+                    session.logger.warning("no radius for", atom.element.name)
+                    atom.radius = radii["H"]
+
         except AttributeError:
             print("cannot color bond")
     

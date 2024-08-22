@@ -9,10 +9,13 @@ from chimerax.atomic.structure import (
 
 from SEQCROW.mouse_modes import DrawBondMouseMode
 
+# from cProfile import Profile
+
 bo_names = [
     'broken',
     'half',
     'single',
+    'partial double',
     'aromatic',
     'double',
     'triple',
@@ -81,6 +84,9 @@ class SetBondOrder(DrawBondMouseMode):
             self.reset()
 
     def draw_new_pbond(self, atom1, atom2):
+        # profile = Profile()
+        # profile.enable()
+        
         if self.draw_new:
             pbg = atom1.structure.pseudobond_group(
                 self.name,
@@ -107,8 +113,10 @@ class SetBondOrder(DrawBondMouseMode):
                 pbs = other_pbg.get_pseudobonds(cs_id)
                 for pb in pbs:
                     if atom1 in pb.atoms and atom2 in pb.atoms:
-                        pb.delete()
-            
+                        other_pbg.delete_pseudobond(pb)
+        
+        # profile.disable()
+        # profile.print_stats()
 
 class SetBrokenBond(SetBondOrder):
     name = "broken"
@@ -132,6 +140,12 @@ class SetSingleBond(SetBondOrder):
 class SetAromaticBond(SetBondOrder):
     name = "aromatic"
     color = [255, 0, 255, 255]
+    dashes = 4
+
+
+class SetPartialDoubleBond(SetBondOrder):
+    name = "partial double"
+    color = [0, 255, 255, 255]
     dashes = 4
 
 
